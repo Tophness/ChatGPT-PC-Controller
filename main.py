@@ -131,9 +131,7 @@ handle_output_type_change()
 window.mainloop()
 
 if __name__ == "__main__":
-    if len(sys.argv) < 3:
-        print("Usage: python script.py <directory_path> <output_filename>")
-    else:
+    if len(sys.argv) > 3:
         directory_path = sys.argv[1]
         output_filename = sys.argv[2]
         iterate_js_files(directory_path, output_filename)
