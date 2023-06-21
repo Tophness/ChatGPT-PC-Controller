@@ -6,6 +6,8 @@ import tkinter.ttk as ttk
 from openai_loader import OpenAILoader
 from tkinter import scrolledtext
 import codecs
+from tkhtmlview import HTMLLabel
+import markdown
 
 def iterate_js_files(directory, output_filename, output_type, file_types, prepend_text=""):
     output_text = ""
@@ -27,8 +29,7 @@ def iterate_js_files(directory, output_filename, output_type, file_types, prepen
             chatResult = loader.start(output_text)
             if(not chatResult):
                 chatResult = loader.start(output_text, True)
-            result_text.delete("1.0", tk.END)
-            result_text.insert(tk.END, codecs.decode(str(chatResult).encode(), "unicode_escape"))
+            result_text.set_html(markdown.markdown(codecs.decode(str(chatResult).encode(), "unicode_escape")))
         else:
             with open(output_filename, "w") as output_file:
                 output_file.write(output_text)
@@ -120,7 +121,7 @@ output_file_entry.insert(tk.END, "prompt.txt")
 browse_output_button = tk.Button(window, text="Browse", command=browse_output_file)
 browse_output_button.pack()
 
-result_text = scrolledtext.ScrolledText(window, width=50, height=10, state="disabled")
+result_text = HTMLLabel(window, width=50, height=10, state="disabled", html='<html></html>')
 result_text.pack()
 
 generate_button = tk.Button(window, text="Generate Output", command=generate_output)

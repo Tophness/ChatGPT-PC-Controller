@@ -1,3 +1,5 @@
 selenium==4.10.0
 undetected-chromedriver==3.5.0
 requests==2.31.0
+tkhtmlview==0.2.0
+Markdown==3.4.3

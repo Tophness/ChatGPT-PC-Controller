@@ -109,11 +109,11 @@ class OpenAIChat:
                 WebDriverWait(self.driver, 60).until(EC.url_to_be("https://chat.openai.com/"))
                 time.sleep(1)
                 
-                self.driver.get("https://chat.openai.com/backend-api/accounts/check/v4-2023-04-27")
-                WebDriverWait(self.driver, 60).until(EC.url_to_be("https://chat.openai.com/backend-api/accounts/check/v4-2023-04-27"))
-                cookie = self.format_cookie(self.driver.get_cookies())
-
                 access_token = self.get_access_token()
+
+            self.driver.get("https://chat.openai.com/backend-api/accounts/check/v4-2023-04-27")
+            WebDriverWait(self.driver, 60).until(EC.url_to_be("https://chat.openai.com/backend-api/accounts/check/v4-2023-04-27"))
+            cookie = self.format_cookie(self.driver.get_cookies())
             if access_token:
                 return access_token, cookie
             else:
