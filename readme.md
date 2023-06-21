@@ -1,6 +1,6 @@
 # ChatGPT Code Uploader
 
-This application utilizes the OpenAI GPT-3.5 model to generate responses based on files and a pretext, while utilizing the main OpenAI website's ChatGPT API underneath instead of requiring API keys.
+This application generates ChatGPT responses based on files and a pretext by utilizing the main OpenAI website's ChatGPT API underneath, instead of requiring API keys.
 
 ## Screenshot
 ![ChatGPT Code Uploader](assets/screenshot.jpg?raw=true)
