@@ -4,7 +4,6 @@ import tkinter as tk
 from tkinter import filedialog
 import tkinter.ttk as ttk
 from openai_loader import OpenAILoader
-from tkinter import scrolledtext
 import codecs
 from tkhtmlview import HTMLLabel
 import markdown
