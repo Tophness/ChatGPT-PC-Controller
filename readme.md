@@ -29,7 +29,7 @@ pip install -r requirements.txt
 2. Change to the project directory:
 
    ```shell
-   cd ChatGPTUploader
+   cd ChatGPTCodeUploader
    ```
 
 3. Install the prerequisite Python libraries:
