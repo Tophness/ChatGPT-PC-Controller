@@ -1,4 +1,4 @@
-['# ChatGPT Code Uploader
+# ChatGPT Code Uploader
 
 This is a Python application that utilizes the OpenAI GPT-3.5 model to generate responses based on files and a pretext.
 
@@ -84,4 +84,4 @@ Contributions are welcome! If you find any issues or want to enhance the functio
 
 ## License
 
-This project is licensed under the [MIT License](LICENSE).']
+This project is licensed under the [MIT License](LICENSE).
