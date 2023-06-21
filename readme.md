@@ -2,6 +2,9 @@
 
 This is a Python application that utilizes the OpenAI GPT-3.5 model to generate responses based on files and a pretext, while utilizing the main OpenAI website's ChatGPT API underneath instead of requiring API keys.
 
+## Screenshot
+![ChatGPT Code Uploader](assets/screenshot.jpg?raw=true)
+
 ## Prerequisites
 
 Before running the application, make sure you have the following prerequisites installed:
