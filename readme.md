@@ -18,17 +18,6 @@ To install the required Python libraries, you can use the following command:
 pip install -r requirements.txt
 ```
 
-Additionally, you need to install a Driver for Selenium.
-Please follow the instructions specific to your browser to install the driver.
-
-For Chrome:
-https://googlechromelabs.github.io/chrome-for-testing/
-You will need to change webdriver_path, chrome_path and user_data_dir in config.ini if it's incorrect. Soon I will add an options menu to do this better and try to detect it automatically.
-
-Firefox (Untested):
-https://github.com/mozilla/geckodriver/releases
-You will need to change webdriver_path, chrome_path and user_data_dir in config.ini, but even then, I don't think it will work at this stage. May support it soon.
-
 ## Installation
 
 1. Clone the repository:
@@ -49,7 +38,15 @@ You will need to change webdriver_path, chrome_path and user_data_dir in config.
    pip install -r requirements.txt
    ```
 
-4. Install the Chrome Driver. Refer to the instructions specific to your operating system to install the Chrome Driver.
+4. Install the Web Driver. Please follow the instructions specific to your browser to install the driver.
+
+For Chrome:
+https://googlechromelabs.github.io/chrome-for-testing/
+You will need to change webdriver_path, chrome_path and user_data_dir in config.ini if the defaults are incorrect. Soon I will add an options menu to do this better and try to detect it automatically.
+
+Firefox (Untested):
+https://github.com/mozilla/geckodriver/releases
+You will need to change webdriver_path, chrome_path and user_data_dir in config.ini, but even then, I don't think it will work at this stage. May support it soon.
 
 ## Usage
 
