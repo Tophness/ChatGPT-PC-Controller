@@ -1,9 +1,9 @@
-# ChatGPT Code Uploader
+# ChatGPT PC Controller
 
-This application generates ChatGPT responses based on files and a pretext by utilizing the main OpenAI website's ChatGPT API underneath, instead of requiring API keys.
+This application lets ChatGPT Control your PC using Python and AutoIt. It utilizes the main OpenAI website's ChatGPT API underneath, instead of requiring API keys.
 
 ## Screenshot
-![ChatGPT Code Uploader](assets/screenshot.jpg?raw=true)
+![ChatGPT PC Controller](assets/screenshot.jpg?raw=true)
 
 ## Prerequisites
 
@@ -26,13 +26,13 @@ Firefox (Untested):
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/Tophness/ChatGPTCodeUploader.git
+   git clone https://github.com/Tophness/ChatGPT_PC_Controller.git
    ```
 
 2. Change to the project directory:
 
    ```shell
-   cd ChatGPTCodeUploader
+   cd ChatGPT_PC_Controller
    ```
 
 3. Install the prerequisite Python libraries:
@@ -53,22 +53,11 @@ To use the program, follow these steps:
    python main.py
    ```
 
-3. The application window will appear.
+3. Enter a command to control your PC.
 
-4. Enter the necessary details and select the desired options:
+4. ChatGPT will generate a control command.
 
-   - Prepend Text: Enter any text you want to prepend to the prompt input.
-   - Input Directory: Select the directory containing the files you want to process.
-   - File Types (comma-separated): Specify the file extensions of the files to process (e.g., js, json, py).
-   - Output Type: Select the desired output type.
-     - Prompt: Display the output in the application window.
-     - Copy to Clipboard: Copy the output to the clipboard.
-     - Save to File: Save the output to a text file.
-   - Output Text File: If the output type is set to "Save to File," enter the desired output file name. By default, it is set to "prompt.txt."
-
-5. Click the **Generate Output** button.
-
-6. The program will process the files in the specified directory and create a prompt according to the selected options. If you selected 'prompt' output type, it will also prompt ChatGPT and return the chat response.
+5. Confirm whether you want to run it.
 
 
 ## Contributing
