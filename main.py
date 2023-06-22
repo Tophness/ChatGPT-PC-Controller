@@ -2,6 +2,14 @@ import autoit
 import sys
 import shlex
 from openai_loader import OpenAILoader
+import re
+
+def extract_code_block(code_string):
+    code_block_regex = "`([\w\W]*?)`"
+    match = re.search(code_block_regex, code_string)
+    if match:
+        return match.group(1).strip()
+    return code_string
 
 def execute_commands(cmd_string):
     commands = cmd_string.split(";")
@@ -38,7 +46,7 @@ if __name__ == "__main__":
 
     preprompt = '''
     You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
-    Output only the command to run and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
+    Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
     Here is an example to type hello world in notepad. Pay close attention to the format.
     run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'
     Now generate a command to '''
@@ -46,9 +54,10 @@ if __name__ == "__main__":
     prompt = preprompt + cmd_string
 
     loader = OpenAILoader()
-    chatResult = str(loader.start(prompt)[0])
-    if(not chatResult):
-        chatResult = str(loader.start(prompt, True)[0])
+    result = loader.start(prompt)
+    if(not result):
+        result = loader.start(prompt, True)
+    chatResult = extract_code_block(str(result[0]))
     print('Going to execute:')
     commands = chatResult.split(";")
     for cmd in commands:
