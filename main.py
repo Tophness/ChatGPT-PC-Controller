@@ -5,7 +5,7 @@ from openai_loader import OpenAILoader
 import re
 
 def extract_code_block(code_string):
-    code_block_regex = "`([\w\W]*?)`"
+    code_block_regex = "```([\w\W]*?)```" if code_string.count("`") == 6 else "`([\w\W]*?)`"
     match = re.search(code_block_regex, code_string)
     if match:
         return match.group(1).strip()
@@ -19,7 +19,7 @@ def execute_commands(cmd_string):
         if args[0] == "run":
             autoit.run(args[1])
         elif args[0] == "win_wait_active":
-            if args[2]:
+            if(len(args) > 2):
                 autoit.win_wait_active(args[1], int(args[2]))
             else:
                 autoit.win_wait_active(args[1])
@@ -48,7 +48,7 @@ if __name__ == "__main__":
     You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
     Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
     Here is an example to type hello world in notepad. Pay close attention to the format.
-    run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'
+    `run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'`
     Now generate a command to '''
 
     prompt = preprompt + cmd_string
@@ -57,7 +57,7 @@ if __name__ == "__main__":
     result = loader.start(prompt)
     if(not result):
         result = loader.start(prompt, True)
-    chatResult = extract_code_block(str(result[0]))
+    chatResult = extract_code_block(str(result[0])).replace('python\n','').replace('\n','')
     print('Going to execute:')
     commands = chatResult.split(";")
     for cmd in commands:
