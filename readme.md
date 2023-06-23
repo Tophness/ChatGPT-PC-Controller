@@ -1,7 +1,9 @@
 # ChatGPT PC Controller
 
-This application lets ChatGPT Control your PC using Python and AutoIt.
+This application lets ChatGPT directly control your PC using Python and AutoIt.
+
 It can control the mouse and keyboard, read and click windows control elements, run any command, move, minimize and close windows, and more.
+
 It utilizes the main OpenAI website's ChatGPT API underneath, instead of requiring API keys.
 
 ## Screenshots
