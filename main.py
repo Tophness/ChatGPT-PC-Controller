@@ -1,7 +1,7 @@
 import autoit
 import sys
 import shlex
-from openai_loader import OpenAILoader
+from OpenAIAPIGrabber.chat import OpenAIChat
 import re
 
 def extract_code_block(code_string):
@@ -53,10 +53,10 @@ if __name__ == "__main__":
 
     prompt = preprompt + cmd_string
 
-    loader = OpenAILoader()
-    result = loader.start(prompt)
+    chat = OpenAIChat()
+    result = chat.start(prompt)
     if(not result):
-        result = loader.start(prompt, True)
+        result = chat.start(prompt, True)
     chatResult = extract_code_block(str(result[0])).replace('python\n','').replace('\n','')
     print('Going to execute:')
     commands = chatResult.split(";")
