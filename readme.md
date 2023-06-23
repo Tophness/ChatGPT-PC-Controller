@@ -59,9 +59,9 @@ To use the program, follow these steps:
    python main.py
    ```
 
-3. Enter a command to control your PC.
+3. Enter a goal for what you want ChatGPT to do to control your PC.
 
-4. ChatGPT will generate a control command.
+4. ChatGPT will generate a set of control commands.
 
 5. Confirm whether you want to run it.
 
