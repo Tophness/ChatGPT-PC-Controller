@@ -4,6 +4,7 @@ This application lets ChatGPT Control your PC using Python and AutoIt. It utiliz
 
 ## Screenshots
 ![ChatGPT PC Controller](assets/screenshot.jpg?raw=true)
+- Here is is creating a command to read the text of my open notepad window, automatically replying back to ChatGPT with it's contents, and ChatGPT generating a new command back to windows based on that:
 ![ChatGPT PC Controller performing input and output ](assets/screenshot_in_out.jpg?raw=true)
 
 ## Prerequisites
