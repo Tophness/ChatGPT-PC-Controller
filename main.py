@@ -113,6 +113,8 @@ def getCmd(chat, prompt, reply=False):
     cmdResult = execute_commands(chatResult)
     if(cmdResult):
         getCmd(chat, cmdResult, True)
+    elif(unattended):
+        getCmd(chat, "what command do you want to execute next?", True)
 
 if __name__ == "__main__":
     load_config()
