@@ -2,8 +2,9 @@
 
 This application lets ChatGPT Control your PC using Python and AutoIt. It utilizes the main OpenAI website's ChatGPT API underneath, instead of requiring API keys.
 
-## Screenshot
+## Screenshots
 ![ChatGPT PC Controller](assets/screenshot.jpg?raw=true)
+![ChatGPT PC Controller performing input and output ](assets/screenshot_in_out.jpg?raw=true)
 
 ## Prerequisites
 

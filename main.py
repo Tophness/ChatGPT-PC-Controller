@@ -4,6 +4,13 @@ import shlex
 from OpenAIAPIGrabber.chat import OpenAIChat
 import re
 
+preprompt = '''
+You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
+Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
+Here is an example to type hello world in notepad. Pay close attention to the format.
+`run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'`
+Now generate a command to '''
+
 def extract_code_block(code_string):
     code_block_regex = "```([\w\W]*?)```" if code_string.count("`") == 6 else "`([\w\W]*?)`"
     match = re.search(code_block_regex, code_string)
@@ -48,26 +55,22 @@ def execute_commands(cmd_string):
             autoit.mouse_move(*args[1:])
         elif args[0] == "keyboard_send":
             autoit.send(*args[1:])
+        elif args[0] == "control_get_text":
+            return(autoit.control_get_text(*args[1:]))
+        elif args[0] == "win_exists":
+            return(autoit.win_exists(*args[1:]))
+        elif args[0] == "win_get_pos":
+            return(autoit.win_get_pos(*args[1:]))
         else:
             print(f"Unknown command: {args[0]}")
+    return
 
-if __name__ == "__main__":
-    try:
-        cmd_string = sys.argv[1]
-    except IndexError:
-        cmd_string = input("Enter a task: ")
-
-    preprompt = '''
-    You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
-    Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
-    Here is an example to type hello world in notepad. Pay close attention to the format.
-    `run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'`
-    Now generate a command to '''
-
-    prompt = preprompt + cmd_string
-
-    chat = OpenAIChat()
-    result = chat.start(prompt)
+def getCmd(chat, prompt, reply=False):
+    result = None
+    if(reply):
+        result = chat.replyLast(prompt)
+    else:
+        result = chat.start(preprompt + prompt)
     chatResult = extract_code_block(str(result[0])).replace('python\n','').replace('\n','')
     print('Going to execute:')
     commands = chatResult.split(";")
@@ -76,6 +79,16 @@ if __name__ == "__main__":
         print(f'Command: {args[0]}, Arguments: {args[1:]}')
     confirmation = input("\nProceed? (y/n): ")
     if confirmation.lower() == "y":
-        execute_commands(chatResult)
+        cmdResult = execute_commands(chatResult)
+        if(cmdResult):
+            getCmd(chat, cmdResult, True)
     else:
         print("Operation cancelled.")
+
+if __name__ == "__main__":
+    try:
+        cmd_string = sys.argv[1]
+    except IndexError:
+        cmd_string = input("Enter a task: ")
+
+    getCmd(OpenAIChat(), cmd_string)
