@@ -26,13 +26,13 @@ Firefox (Untested):
 1. Clone the repository:
 
    ```shell
-   git clone https://github.com/Tophness/ChatGPT_PC_Controller.git
+   git clone https://github.com/Tophness/ChatGPTPCController.git
    ```
 
 2. Change to the project directory:
 
    ```shell
-   cd ChatGPT_PC_Controller
+   cd ChatGPTPCController
    ```
 
 3. Install the prerequisite Python libraries:
