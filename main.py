@@ -3,13 +3,41 @@ import sys
 import shlex
 from OpenAIAPIGrabber.chat import OpenAIChat
 import re
+import configparser
 
+config_file = 'config.ini'
+config = None
+unattended = False
 preprompt = '''
 You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
 Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
 Here is an example to type hello world in notepad. Pay close attention to the format.
 `run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:RichEditD2DPT]' 'hello world'`
 Now generate a command to '''
+
+def load_config():
+    global config
+    config = configparser.ConfigParser()
+    config.read(config_file)
+    controller_section = None
+    if('Controller' in config):
+        controller_section = config['Controller']
+    else:
+        save_config()
+        controller_section = config['Controller']
+    if(controller_section):
+        global unattended, preprompt
+        unattended = controller_section.getboolean('Unattended')
+        preprompt = controller_section.get('Preprompt')
+
+def save_config():
+    global config
+    config['Controller'] = {
+        'Unattended': unattended,
+        'Preprompt': preprompt
+    }
+    with open(config_file, 'w') as configfile:
+        config.write(configfile)
 
 def extract_code_block(code_string):
     code_block_regex = "```([\w\W]*?)```" if code_string.count("`") == 6 else "`([\w\W]*?)`"
@@ -72,23 +100,24 @@ def getCmd(chat, prompt, reply=False):
     else:
         result = chat.start(preprompt + prompt)
     chatResult = extract_code_block(str(result[0])).replace('python\n','').replace('\n','')
-    print('Going to execute:')
-    commands = chatResult.split(";")
-    for cmd in commands:
-        args = shlex.split(cmd)
-        print(f'Command: {args[0]}, Arguments: {args[1:]}')
-    confirmation = input("\nProceed? (y/n): ")
-    if confirmation.lower() == "y":
-        cmdResult = execute_commands(chatResult)
-        if(cmdResult):
-            getCmd(chat, cmdResult, True)
-    else:
-        print("Operation cancelled.")
+    if (not unattended):
+        print('Going to execute:')
+        commands = chatResult.split(";")
+        for cmd in commands:
+            args = shlex.split(cmd)
+            print(f'Command: {args[0]}, Arguments: {args[1:]}')
+        confirmation = input("\nProceed? (y/n): ")
+        if confirmation.lower() != "y":
+            print("Operation cancelled.")
+            return
+    cmdResult = execute_commands(chatResult)
+    if(cmdResult):
+        getCmd(chat, cmdResult, True)
 
 if __name__ == "__main__":
+    load_config()
     try:
         cmd_string = sys.argv[1]
     except IndexError:
         cmd_string = input("Enter a task: ")
-
     getCmd(OpenAIChat(), cmd_string)
