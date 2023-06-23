@@ -65,6 +65,9 @@ To use the program, follow these steps:
 
 5. Confirm whether you want to run it.
 
+## Settings
+- Set config.ini's 'Unattended mode' to True if you like to live dangerously. It will run in an infinite loop allowing ChatGPT to make it's own decisions and explore everything it opens and reads on your computer without asking.
+- You can also edit the 'Preprompt' setting to adjust the prompt that gets prepended to your command.
 
 ## Contributing
 
