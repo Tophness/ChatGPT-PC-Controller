@@ -15,7 +15,7 @@ Here is an example to type hello world in notepad.
 `run('notepad.exe')
 win_wait_active('[CLASS:Notepad]',3)
 control_send('[CLASS:Notepad]','[CLASS:Edit1]','hello world')`
-Now generate commands to '''
+Now generate commands to'''
 
 def load_config():
     global config
@@ -97,7 +97,7 @@ def getCmd(chat, prompt, reply=False):
     if(reply):
         chatResult = chat.replyLast(prompt)
     else:
-        chatResult = chat.start(preprompt + prompt)
+        chatResult = chat.start(preprompt + " " + prompt)
     if(chatResult):
         if hasattr(chatResult, '__len__') and (not isinstance(chatResult, str)):
             chatResult = str(chatResult[0])
