@@ -15,6 +15,119 @@ Here is an example to type hello world in notepad. Pay close attention to the fo
 `run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:Edit1]' 'hello world'`
 Now generate a command to '''
 
+function_mapping = {
+    "control_click": autoit.control_click,
+    "control_click_by_handle": autoit.control_click_by_handle,
+    "control_command": autoit.control_command,
+    "control_command_by_handle": autoit.control_command_by_handle,
+    "control_list_view": autoit.control_list_view,
+    "control_list_view_by_handle": autoit.control_list_view_by_handle,
+    "control_disable": autoit.control_disable,
+    "control_disable_by_handle": autoit.control_disable_by_handle,
+    "control_enable": autoit.control_enable,
+    "control_enable_by_handle": autoit.control_enable_by_handle,
+    "control_focus": autoit.control_focus,
+    "control_focus_by_handle": autoit.control_focus_by_handle,
+    "control_get_focus": autoit.control_get_focus,
+    "control_get_focus_by_handle": autoit.control_get_focus_by_handle,
+    "control_get_handle": autoit.control_get_handle,
+    "control_get_handle_as_text": autoit.control_get_handle_as_text,
+    "control_get_pos": autoit.control_get_pos,
+    "control_get_pos_by_handle": autoit.control_get_pos_by_handle,
+    "control_get_text": autoit.control_get_text,
+    "control_get_text_by_handle": autoit.control_get_text_by_handle,
+    "control_hide": autoit.control_hide,
+    "control_hide_by_handle": autoit.control_hide_by_handle,
+    "control_move": autoit.control_move,
+    "control_move_by_handle": autoit.control_move_by_handle,
+    "control_send": autoit.control_send,
+    "control_send_by_handle": autoit.control_send_by_handle,
+    "control_set_text": autoit.control_set_text,
+    "control_set_text_by_handle": autoit.control_set_text_by_handle,
+    "control_show": autoit.control_show,
+    "control_show_by_handle": autoit.control_show_by_handle,
+    "control_tree_view": autoit.control_tree_view,
+    "control_tree_view_by_handle": autoit.control_tree_view_by_handle,
+    "statusbar_get_text": autoit.statusbar_get_text,
+    "statusbar_get_text_by_handle": autoit.statusbar_get_text_by_handle,
+    "clip_get": autoit.clip_get,
+    "clip_put": autoit.clip_put,
+    "is_admin": autoit.is_admin,
+    "mouse_click": autoit.mouse_click,
+    "mouse_click_drag": autoit.mouse_click_drag,
+    "mouse_down": autoit.mouse_down,
+    "mouse_get_cursor": autoit.mouse_get_cursor,
+    "mouse_get_pos": autoit.mouse_get_pos,
+    "mouse_move": autoit.mouse_move,
+    "mouse_up": autoit.mouse_up,
+    "mouse_wheel": autoit.mouse_wheel,
+    "opt": autoit.opt,
+    "pixel_checksum": autoit.pixel_checksum,
+    "pixel_get_color": autoit.pixel_get_color,
+    "pixel_search": autoit.pixel_search,
+    "send": autoit.send,
+    "keyboard_send": autoit.send,
+    "tooltip": autoit.tooltip,
+    "win_activate": autoit.win_activate,
+    "win_activate_by_handle": autoit.win_activate_by_handle,
+    "win_active": autoit.win_active,
+    "win_active_by_handle": autoit.win_active_by_handle,
+    "win_close": autoit.win_close,
+    "win_close_by_handle": autoit.win_close_by_handle,
+    "win_exists": autoit.win_exists,
+    "win_exists_by_handle": autoit.win_exists_by_handle,
+    "win_get_caret_pos": autoit.win_get_caret_pos,
+    "win_get_class_list": autoit.win_get_class_list,
+    "win_get_class_list_by_handle": autoit.win_get_class_list_by_handle,
+    "win_get_client_size": autoit.win_get_client_size,
+    "win_get_client_size_by_handle": autoit.win_get_client_size_by_handle,
+    "win_get_handle": autoit.win_get_handle,
+    "win_get_handle_as_text": autoit.win_get_handle_as_text,
+    "win_get_pos": autoit.win_get_pos,
+    "win_get_pos_by_handle": autoit.win_get_pos_by_handle,
+    "win_get_process": autoit.win_get_process,
+    "win_get_process_by_handle": autoit.win_get_process_by_handle,
+    "win_get_state": autoit.win_get_state,
+    "win_get_state_by_handle": autoit.win_get_state_by_handle,
+    "win_get_text": autoit.win_get_text,
+    "win_get_text_by_handle": autoit.win_get_text_by_handle,
+    "win_get_title": autoit.win_get_title,
+    "win_get_title_by_handle": autoit.win_get_title_by_handle,
+    "win_kill": autoit.win_kill,
+    "win_kill_by_handle": autoit.win_kill_by_handle,
+    "win_menu_select_item": autoit.win_menu_select_item,
+    "win_menu_select_item_by_handle": autoit.win_menu_select_item_by_handle,
+    "win_minimize_all": autoit.win_minimize_all,
+    "win_minimize_all_undo": autoit.win_minimize_all_undo,
+    "win_move": autoit.win_move,
+    "win_move_by_handle": autoit.win_move_by_handle,
+    "win_set_on_top": autoit.win_set_on_top,
+    "win_set_on_top_by_handle": autoit.win_set_on_top_by_handle,
+    "win_set_state": autoit.win_set_state,
+    "win_set_state_by_handle": autoit.win_set_state_by_handle,
+    "win_set_title": autoit.win_set_title,
+    "win_set_title_by_handle": autoit.win_set_title_by_handle,
+    "win_set_trans": autoit.win_set_trans,
+    "win_set_trans_by_handle": autoit.win_set_trans_by_handle,
+    "win_wait": autoit.win_wait,
+    "win_wait_by_handle": autoit.win_wait_by_handle,
+    "win_wait_active": autoit.win_wait_active,
+    "win_wait_active_by_handle": autoit.win_wait_active_by_handle,
+    "win_wait_close": autoit.win_wait_close,
+    "win_wait_close_by_handle": autoit.win_wait_close_by_handle,
+    "win_wait_not_active": autoit.win_wait_not_active,
+    "win_wait_not_active_by_handle": autoit.win_wait_not_active_by_handle,
+    "run": autoit.run
+}
+
+def convert_function_call(args):
+    if args[0] in function_mapping:
+        func = function_mapping[args[0]]
+        converted_args = [int(arg) if isinstance(arg, str) and arg.isdigit() else arg for arg in args[1:]]
+        return func(*converted_args)
+    else:
+        raise ValueError("Invalid function name: " + args[0])
+
 def load_config():
     global config
     config = configparser.ConfigParser()
@@ -48,73 +161,48 @@ def extract_code_block(code_string):
 
 def execute_commands(cmd_string):
     commands = cmd_string.split(";")
+    funcData = []
     for cmd in commands:
         args = shlex.split(cmd)
         print(f'Command: {args[0]}, Arguments: {args[1:]}')
-        if args[0] == "run":
-            autoit.run(*args[1:])
-        elif args[0] == "win_wait_active":
-            if len(args) > 2: args[2] = int(args[2])
-            autoit.win_wait_active(*args[1:])
-        elif args[0] == "control_send":
-            autoit.control_send(*args[1:])
-        elif args[0] == "activate_window":
-            autoit.win_activate(*args[1:])
-        elif args[0] == "maximize_window":
-            autoit.win_maximize(*args[1:])
-        elif args[0] == "minimize_window":
-            autoit.win_minimize(*args[1:])
-        elif args[0] == "move_window":
-            if len(args) > 2: args[2] = int(args[2])
-            if len(args) > 3: args[3] = int(args[3])
-            autoit.win_move(*args[1:])
-        elif args[0] == "close_window":
-            autoit.win_close(*args[1:])
-        elif args[0] == "mouse_click":
-            if len(args) > 2: args[2] = int(args[2])
-            if len(args) > 3: args[3] = int(args[3])
-            if len(args) > 4: args[4] = int(args[4])
-            if len(args) > 5: args[5] = int(args[5])
-            autoit.mouse_click(*args[1:])
-        elif args[0] == "mouse_move":
-            if len(args) > 1: args[1] = int(args[1])
-            if len(args) > 2: args[2] = int(args[2])
-            if len(args) > 3: args[3] = int(args[3])
-            autoit.mouse_move(*args[1:])
-        elif args[0] == "keyboard_send":
-            autoit.send(*args[1:])
-        elif args[0] == "control_get_text":
-            return(autoit.control_get_text(*args[1:]))
-        elif args[0] == "win_exists":
-            return(autoit.win_exists(*args[1:]))
-        elif args[0] == "win_get_pos":
-            return(autoit.win_get_pos(*args[1:]))
-        else:
-            print(f"Unknown command: {args[0]}")
-    return
+        returnData = convert_function_call(args)
+        if(returnData): funcData.append(returnData)
+    if(len(funcData) > 0):
+        return "\n".join(funcData)
+    else:
+        return None
+
+def isArray(N):
+    if hasattr(N, '__len__') and (not isinstance(N, str)):
+        return True
+    else:
+        return False
 
 def getCmd(chat, prompt, reply=False):
-    result = None
+    chatResult = None
     if(reply):
-        result = chat.replyLast(prompt)
+        chatResult = chat.replyLast(prompt)
     else:
-        result = chat.start(preprompt + prompt)
-    chatResult = extract_code_block(str(result[0])).replace('python\n','').replace('\n','')
-    if (not unattended):
-        print('Going to execute:')
-        commands = chatResult.split(";")
-        for cmd in commands:
-            args = shlex.split(cmd)
-            print(f'Command: {args[0]}, Arguments: {args[1:]}')
-        confirmation = input("\nProceed? (y/n): ")
-        if confirmation.lower() != "y":
-            print("Operation cancelled.")
-            return
-    cmdResult = execute_commands(chatResult)
-    if(cmdResult):
-        getCmd(chat, cmdResult, True)
-    elif(unattended):
-        getCmd(chat, "what command do you want to execute next?", True)
+        chatResult = chat.start(preprompt + prompt)
+    if(chatResult):
+        if(isArray(chatResult)):
+            chatResult = str(chatResult[0])
+        chatResult = extract_code_block(chatResult).replace('python\n','').replace('\n','').replace('plaintext\n','')
+        if (not unattended):
+            print('Going to execute:')
+            commands = chatResult.split(";")
+            for cmd in commands:
+                args = shlex.split(cmd)
+                print(f'Command: {args[0]}, Arguments: {args[1:]}')
+            confirmation = input("\nProceed? (y/n): ")
+            if confirmation.lower() != "y":
+                print("Operation cancelled.")
+                return
+        cmdResult = execute_commands(chatResult)
+        if(cmdResult):
+            getCmd(chat, cmdResult, True)
+        elif(unattended):
+            getCmd(chat, "what command do you want to execute next?", True)
 
 if __name__ == "__main__":
     load_config()
