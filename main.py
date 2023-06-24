@@ -73,7 +73,7 @@ def getCmd(chat, prompt, reply=False):
     else:
         chatResult = chat.start(preprompt + prompt)
     if(chatResult):
-        if hasattr(N, '__len__') and (not isinstance(N, str)):
+        if hasattr(chatResult, '__len__') and (not isinstance(chatResult, str)):
             chatResult = str(chatResult[0])
         chatResult = extract_code_block(chatResult).replace('python\n','').replace('\n','').replace('plaintext\n','')
         if (not unattended):
