@@ -60,9 +60,9 @@ def execute_commands(cmd_string):
         args = shlex.split(cmd)
         print(f'Command: {args[0]}, Arguments: {args[1:]}')
         returnData = str(convert_function_call(args))
-        if(returnData): funcData.append('call to ' + args[0] + ' with args ' + str(args[1:]) + ' returned: ' + returnData)
+        if(returnData): funcData.append('Call to ' + args[0] + ' with args ' + str(args[1:][0]) + ' returned: ' + returnData)
     if(len(funcData) > 0):
-        return "\n".join(funcData)
+        return "\n".join(funcData) + "\nWhat command do you want to execute next?"
     else:
         return None
 
@@ -84,6 +84,7 @@ def getCmd(chat, prompt, reply=False):
                 print(f'Command: {args[0]}, Arguments: {args[1:]}')
             confirmation = input("\nProceed? (y/n): ")
             if confirmation.lower() != "y":
+                chat.deleteLast()
                 print("Operation cancelled.")
                 return
         cmdResult = execute_commands(chatResult)
