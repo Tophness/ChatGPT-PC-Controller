@@ -117,7 +117,17 @@ function_mapping = {
     "win_wait_close_by_handle": autoit.win_wait_close_by_handle,
     "win_wait_not_active": autoit.win_wait_not_active,
     "win_wait_not_active_by_handle": autoit.win_wait_not_active_by_handle,
-    "run": autoit.run
+    "run": autoit.run,
+    "auto_it_set_option": autoit.auto_it_set_option,
+    "run_wait": autoit.run_wait,
+    "process_close": autoit.process_close,
+    "process_exists": autoit.process_exists,
+    "process_set_priority": autoit.process_set_priority,
+    "process_wait": autoit.process_wait,
+    "process_wait_close": autoit.process_wait_close,
+    "run_as": autoit.run_as,
+    "run_as_wait": autoit.run_as_wait,
+    "shutdown": autoit.shutdown
 }
 
 def convert_function_call(args):
