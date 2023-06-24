@@ -1,6 +1,6 @@
 import autoit
 import sys
-import shlex
+import ast
 from OpenAIAPIGrabber.chat import OpenAIChat
 import re
 import configparser
@@ -8,10 +8,12 @@ import configparser
 config_file = 'config.ini'
 config = None
 unattended = False
-preprompt = '''You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library. Windows will reply back with the result of any commands that return a value (like control_get_text), and you can use that to decide what commands to generate next.
-Output only the commands to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
-Here is an example to type hello world in notepad. Pay close attention to the format.
-`run 'notepad.exe';win_wait_active '[CLASS:Notepad]' 3;control_send '[CLASS:Notepad]' '[CLASS:Edit1]' 'hello world'`
+preprompt = '''You are directly controlling a windows PC using the pyautoit library. Windows will reply back with the result of any commands that return a value like control_get_text(), and you can use that to decide what commands to generate next.
+Output only the functions to run and nothing else. Don't set any variables. Don't comment anything.
+Here is an example to type hello world in notepad.
+`run('notepad.exe')
+win_wait_active('[CLASS:Notepad]',3)
+control_send('[CLASS:Notepad]','[CLASS:Edit1]','hello world')`
 Now generate commands to '''
 
 def load_config():
@@ -45,22 +47,29 @@ def extract_code_block(code_string):
         return match.group(1).strip()
     return code_string
 
-def convert_function_call(args):
-    func = getattr(autoit, args[0])
+def convert_function_call(cmd_string):
+    tree = ast.parse(cmd_string.strip())
+    function_call = next(node for node in ast.walk(tree) if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call))
+    function_name = function_call.value.func.id
+    func = getattr(autoit, function_name)
     if func:
-        converted_args = [int(arg) if isinstance(arg, str) and arg.isdigit() else arg for arg in args[1:]]
-        return func(*converted_args)
+        args = [ast.literal_eval(arg) for arg in function_call.value.args]
+        return func(*args)
     else:
-        raise ValueError("Invalid function name: " + args[0])
+        raise ValueError("Invalid function name: " + function_name)
 
-def execute_commands(cmd_string):
-    commands = cmd_string.split(";")
+def remove_variable_assignment(text):
+    lines = text.split("\n")
+    for i in range(len(lines)):
+        lines[i] = re.sub(r'^\s*[\w\d]+\s*=\s*', '', lines[i])
+    return lines
+
+def execute_commands(cmds_string):
     funcData = []
+    commands = remove_variable_assignment(cmds_string)
     for cmd in commands:
-        args = shlex.split(cmd)
-        print(f'Command: {args[0]}, Arguments: {args[1:]}')
-        returnData = str(convert_function_call(args))
-        if(returnData): funcData.append('Call to ' + args[0] + ' with args ' + str(args[1:]) + ' returned: ' + returnData)
+        returnData = str(convert_function_call(cmd))
+        if(returnData): funcData.append('Call to ' + cmd + ' returned: ' + returnData)
     if(len(funcData) > 0):
         return "\n".join(funcData) + "\nWhat command do you want to execute next?"
     else:
@@ -75,13 +84,13 @@ def getCmd(chat, prompt, reply=False):
     if(chatResult):
         if hasattr(chatResult, '__len__') and (not isinstance(chatResult, str)):
             chatResult = str(chatResult[0])
-        chatResult = extract_code_block(chatResult).replace('python\n','').replace('\n','').replace('plaintext\n','')
+        chatResult = chatResult.replace('```python','```').replace('```plaintext','```')
+        chatResult = extract_code_block(chatResult)
         if (not unattended):
             print('Going to execute:')
-            commands = chatResult.split(";")
+            commands = remove_variable_assignment(chatResult)
             for cmd in commands:
-                args = shlex.split(cmd)
-                print(f'Command: {args[0]}, Arguments: {args[1:]}')
+                print(cmd)
             confirmation = input("\nProceed? (y/n): ")
             if confirmation.lower() != "y":
                 chat.deleteLast()
