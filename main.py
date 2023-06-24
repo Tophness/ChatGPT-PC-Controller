@@ -8,7 +8,8 @@ import configparser
 config_file = 'config.ini'
 config = None
 unattended = False
-preprompt = '''You are directly controlling a windows PC using the pyautoit library. Windows will reply back with the result of any commands that return a value like control_get_text(), and you can use that to decide what commands to generate next.
+preprompt = '''You are directly controlling a windows PC using functions in the pyautoit library.
+Windows will reply back with the result of any commands that return a value and you can use that to decide what commands to generate next.
 Output only the functions to run and nothing else. Don't set any variables. Don't comment anything.
 Here is an example to type hello world in notepad.
 `run('notepad.exe')
@@ -40,12 +41,17 @@ def save_config():
     with open(config_file, 'w') as configfile:
         config.write(configfile)
 
-def extract_code_block(code_string):
-    code_block_regex = "```([\w\W]*?)```" if code_string.count("`") == 6 else "`([\w\W]*?)`"
-    match = re.search(code_block_regex, code_string)
-    if match:
-        return match.group(1).strip()
-    return code_string
+def extract_code_blocks(code_string):
+    code_block_regex = r"```([\w\W]*?)```" if code_string.count("`") == 6 else r"`([\w\W]*?)`"
+    matches = re.findall(code_block_regex, code_string)
+    functions = []
+    
+    for match in matches:
+        match = match.strip()
+        if '(' in match and ')' in match:
+            functions.append(match)
+    
+    return functions
 
 def convert_function_call(cmd_string):
     tree = ast.parse(cmd_string.strip())
@@ -59,6 +65,8 @@ def convert_function_call(cmd_string):
         raise ValueError("Invalid function name: " + function_name)
 
 def remove_variable_assignment(text):
+    if hasattr(text, '__len__') and (not isinstance(text, str)):
+        return text
     lines = text.split("\n")
     for i in range(len(lines)):
         lines[i] = re.sub(r'^\s*[\w\d]+\s*=\s*', '', lines[i])
@@ -85,7 +93,7 @@ def getCmd(chat, prompt, reply=False):
         if hasattr(chatResult, '__len__') and (not isinstance(chatResult, str)):
             chatResult = str(chatResult[0])
         chatResult = chatResult.replace('```python','```').replace('```plaintext','```')
-        chatResult = extract_code_block(chatResult)
+        chatResult = extract_code_blocks(chatResult)
         if (not unattended):
             print('Going to execute:')
             commands = remove_variable_assignment(chatResult)
