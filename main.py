@@ -59,7 +59,7 @@ def execute_commands(cmd_string):
     for cmd in commands:
         args = shlex.split(cmd)
         print(f'Command: {args[0]}, Arguments: {args[1:]}')
-        returnData = convert_function_call(args)
+        returnData = str(convert_function_call(args))
         if(returnData): funcData.append(returnData)
     if(len(funcData) > 0):
         return "\n".join(funcData)
