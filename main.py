@@ -60,7 +60,7 @@ def execute_commands(cmd_string):
         args = shlex.split(cmd)
         print(f'Command: {args[0]}, Arguments: {args[1:]}')
         returnData = str(convert_function_call(args))
-        if(returnData): funcData.append(returnData)
+        if(returnData): funcData.append('call to ' + args[0] + '() returned: ' + returnData)
     if(len(funcData) > 0):
         return "\n".join(funcData)
     else:
