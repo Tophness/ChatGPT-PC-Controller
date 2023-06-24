@@ -8,11 +8,11 @@ import configparser
 config_file = 'config.ini'
 config = None
 unattended = False
-preprompt = '''You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library.
-Output only the command to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
+preprompt = '''You are directly controlling a windows PC using a python script that parses commands and runs them with autoit using the pyautoit library. Windows will reply back with the result of any commands that return a value (like control_get_text), and you can use that to decide what commands to generate next.
+Output only the commands to run (inside a code block) and nothing else. Commands are separated by colons, and arguments to those commands are separated by spaces. Argument strings must be encased in single quotes.
 Here is an example to type hello world in notepad. Pay close attention to the format.
-`run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:Edit1]' 'hello world'`
-Now generate a command to '''
+`run 'notepad.exe';win_wait_active '[CLASS:Notepad]' 3;control_send '[CLASS:Notepad]' '[CLASS:Edit1]' 'hello world'`
+Now generate commands to '''
 
 def load_config():
     global config
