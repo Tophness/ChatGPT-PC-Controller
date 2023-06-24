@@ -14,14 +14,6 @@ Here is an example to type hello world in notepad. Pay close attention to the fo
 `run 'notepad.exe';win_wait_active '[CLASS:Notepad]' '3';control_send '[CLASS:Notepad]' '[CLASS:Edit1]' 'hello world'`
 Now generate a command to '''
 
-def convert_function_call(args):
-    func = getattr(autoit, args[0])
-    if func:
-        converted_args = [int(arg) if isinstance(arg, str) and arg.isdigit() else arg for arg in args[1:]]
-        return func(*converted_args)
-    else:
-        raise ValueError("Invalid function name: " + args[0])
-
 def load_config():
     global config
     config = configparser.ConfigParser()
@@ -53,6 +45,14 @@ def extract_code_block(code_string):
         return match.group(1).strip()
     return code_string
 
+def convert_function_call(args):
+    func = getattr(autoit, args[0])
+    if func:
+        converted_args = [int(arg) if isinstance(arg, str) and arg.isdigit() else arg for arg in args[1:]]
+        return func(*converted_args)
+    else:
+        raise ValueError("Invalid function name: " + args[0])
+
 def execute_commands(cmd_string):
     commands = cmd_string.split(";")
     funcData = []
@@ -66,12 +66,6 @@ def execute_commands(cmd_string):
     else:
         return None
 
-def isArray(N):
-    if hasattr(N, '__len__') and (not isinstance(N, str)):
-        return True
-    else:
-        return False
-
 def getCmd(chat, prompt, reply=False):
     chatResult = None
     if(reply):
@@ -79,7 +73,7 @@ def getCmd(chat, prompt, reply=False):
     else:
         chatResult = chat.start(preprompt + prompt)
     if(chatResult):
-        if(isArray(chatResult)):
+        if hasattr(N, '__len__') and (not isinstance(N, str)):
             chatResult = str(chatResult[0])
         chatResult = extract_code_block(chatResult).replace('python\n','').replace('\n','').replace('plaintext\n','')
         if (not unattended):
