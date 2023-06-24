@@ -69,10 +69,17 @@ def convert_function_call(cmd_string):
 def remove_variable_assignment(text):
     if hasattr(text, '__len__') and (not isinstance(text, str)):
         return text
+    pattern = r'([a-zA-Z_]\w*\([^)]*\))'
     lines = text.split("\n")
+    functions = []
+
     for i in range(len(lines)):
-        lines[i] = re.sub(r'^\s*[\w\d]+\s*=\s*', '', lines[i])
-    return lines
+        line = re.sub(r'^\s*[\w\d]+\s*=\s*', '', lines[i])
+        match = re.search(pattern, line)
+        if match:
+            functions.append(match.group())
+
+    return functions
 
 def execute_commands(cmds_string):
     funcData = []
