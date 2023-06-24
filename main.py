@@ -50,8 +50,10 @@ def extract_code_blocks(code_string):
         match = match.strip()
         if '(' in match and ')' in match:
             functions.append(match)
-    
-    return functions
+    if(len(functions) > 0):
+        return functions
+    else:
+        return code_string
 
 def convert_function_call(cmd_string):
     tree = ast.parse(cmd_string.strip())
