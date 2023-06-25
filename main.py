@@ -178,8 +178,8 @@ def convert_function_call(cmd_string):
         func = function_mapping[function_name]
     if func:
         args = [ast.literal_eval(arg) for arg in function_call.value.args]
-        if(function_name == "ControlClick" and len(args) > 2 and args[1] == ""):
-            args = [args[0], args[2]]
+        if(len(args) > 2 and args[1] == ""):
+            args.pop(1)
         return func(*args)
     else:
         raise ValueError("Invalid function name: " + function_name)
