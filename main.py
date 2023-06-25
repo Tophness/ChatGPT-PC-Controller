@@ -178,7 +178,7 @@ def convert_function_call(cmd_string):
         func = function_mapping[function_name]
     if func:
         args = [ast.literal_eval(arg) for arg in function_call.value.args]
-        if(function_name == "control_click" and len(args) > 2 and args[1] == ""):
+        if(function_name == "ControlClick" and len(args) > 2 and args[1] == ""):
             args = [args[0], args[2]]
         return func(*args)
     else:
@@ -206,7 +206,7 @@ def execute_commands(cmds_string):
         returnData = str(convert_function_call(cmd))
         if(returnData): funcData.append('Call to ' + cmd + ' returned: ' + returnData)
     if(len(funcData) > 0):
-        return "\n".join(funcData) + "\nWhat command do you want to execute next?"
+        return "\n".join(funcData) + "\nWhat function do you want to execute next?"
     else:
         return None
 
@@ -235,7 +235,7 @@ def getCmd(chat, prompt, reply=False):
         if(cmdResult):
             getCmd(chat, cmdResult, True)
         elif(unattended):
-            getCmd(chat, "what command do you want to execute next?", True)
+            getCmd(chat, "what function do you want to execute next?", True)
         else:
             chat.deleteLast()
 
