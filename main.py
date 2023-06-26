@@ -208,7 +208,7 @@ def convert_function_call(cmd_string):
             funcResult = func(*args)
             return funcResult
         except Exception as e:
-            errorMsg = "Call to " + function_name + " with arguments " + ",".join(args) + " returned error: " + str(e)
+            errorMsg = "Call to " + function_name + " with arguments " + ",".join(str(x) for x in args) + " returned error: " + str(e)
             print(errorMsg)
             return errorMsg
     else:
