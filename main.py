@@ -4,6 +4,7 @@ import ast
 from OpenAIAPIGrabber.chat import OpenAIChat
 import re
 import configparser
+import os
 
 config_file = 'config.ini'
 config = None
@@ -170,7 +171,30 @@ def extract_code_blocks(code_string):
     else:
         return code_string
 
+def correct_file_path(arg):
+    if(not isinstance(arg, str)):
+        return arg
+    if(":" in arg):
+        if arg.startswith("'\"") and arg.endswith("\"'"):
+            arg = arg.replace("'\"", "'").replace("\"'", "'")
+        if(os.path.exists(arg)):
+            return arg
+        elif("\\" in arg and not "\\\\" in arg):
+            arg = arg.replace("\\", "/")
+            if(os.path.exists(arg)):
+                return arg
+    return arg
+
+def extract_file_path(cmd_string):
+    args = re.findall(r'\((.*?)\)', cmd_string)
+    if args:
+        args = [arg.strip() for arg in args[0].split(',')]
+        args = [correct_file_path(arg) for arg in args]
+        return re.sub(r'\((.*?)\)', '(' + ', '.join(args) + ')', cmd_string)
+    return args
+
 def convert_function_call(cmd_string):
+    cmd_string = extract_file_path(cmd_string)
     tree = ast.parse(cmd_string.strip())
     function_call = next(node for node in ast.walk(tree) if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call))
     function_name = function_call.value.func.id
@@ -180,7 +204,13 @@ def convert_function_call(cmd_string):
         args = [ast.literal_eval(arg) for arg in function_call.value.args]
         if(len(args) > 2 and args[1] == ""):
             args.pop(1)
-        return func(*args)
+        try:
+            funcResult = func(*args)
+            return funcResult
+        except Exception as e:
+            errorMsg = "Call to " + function_name + " with arguments " + ",".join(args) + " returned error: " + str(e)
+            print(errorMsg)
+            return errorMsg
     else:
         raise ValueError("Invalid function name: " + function_name)
 
