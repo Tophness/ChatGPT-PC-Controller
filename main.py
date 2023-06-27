@@ -10,12 +10,8 @@ config_file = 'config.ini'
 config = None
 unattended = False
 preprompt = '''You are directly controlling a windows PC using autoit functions.
-Windows will reply back with the result of any commands that return a value and you can use that to decide what commands to generate next.
-Output only the functions to run and nothing else. Don't set any variables. Don't comment anything.
-Here is an example to type hello world in notepad.
-`Run('notepad.exe')
-WinWaitActive('[CLASS:Notepad]','',3)
-ControlSend('[CLASS:Notepad]','','[CLASS:Edit1]','hello world')`
+I will reply back with the result of any commands that return a value and you can use that to decide what commands to generate next.
+Output only functions and nothing else. Don't set any variables. Don't comment anything.
 Now generate commands to'''
 
 def load_config():
@@ -59,9 +55,14 @@ def extract_code_blocks(code_string):
 def correct_file_path(arg):
     if(not isinstance(arg, str)):
         return arg
-    if(":" in arg):
-        if arg.startswith("'\"") and arg.endswith("\"'"):
-            arg = arg.replace("'\"", "'").replace("\"'", "'")
+    if arg.startswith("'\"") and arg.endswith("\"'"):
+        arg = arg.replace("'\"", "'").replace("\"'", "'")
+    if arg.startswith('"'):
+        arg = arg.replace('"', "'")
+    if arg.endswith('"'):
+        arg = arg.replace('"', "'")
+    drive, path = os.path.splitdrive(arg.replace("'","").replace('"',""))
+    if(drive):
         if(os.path.exists(arg)):
             return arg
         elif("\\" in arg and not "\\\\" in arg):
@@ -71,12 +72,13 @@ def correct_file_path(arg):
     return arg
 
 def extract_file_path(cmd_string):
-    args = re.findall(r'\((.*?)\)', cmd_string)
-    if args:
-        args = [arg.strip() for arg in args[0].split(',')]
-        args = [correct_file_path(arg) for arg in args]
-        return re.sub(r'\((.*?)\)', '(' + ', '.join(args) + ')', cmd_string)
-    return args
+    cmds = re.findall(r'\((.*?)\)', cmd_string)
+    argsnew = []
+    for args in cmds:
+        arg_list = [correct_file_path(arg.strip()) for arg in args.split(',')]
+        argsnew.append('(' + ', '.join(arg_list) + ')')
+    cmd_string_new = re.sub(r'\((.*?)\)', lambda x: argsnew.pop(0), cmd_string)
+    return cmd_string_new
 
 def convert_function_call(cmd_string):
     cmd_string = extract_file_path(cmd_string)
