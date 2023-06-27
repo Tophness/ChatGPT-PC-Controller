@@ -106,7 +106,7 @@ def remove_variable_assignment(text):
     functions = []
 
     for i in range(len(lines)):
-        line = re.sub(r'^\s*[\w\d]+\s*=\s*', '', lines[i])
+        line = re.sub(r'^\s*\$?\w+\s*=\s*', '', lines[i])
         match = re.search(pattern, line)
         if match:
             functions.append(match.group())
