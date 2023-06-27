@@ -11,7 +11,7 @@ config = None
 unattended = False
 preprompt = '''You are directly controlling a windows PC using autoit functions.
 I will reply back with the result of any commands that return a value and you can use that to decide what commands to generate next.
-Output only functions and nothing else. Don't set any variables. Don't comment anything.
+Output only functions and nothing else. Don't set any variables. Don't use window handles. Don't comment anything.
 Now generate commands to'''
 
 def load_config():
