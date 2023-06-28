@@ -44,8 +44,9 @@ def save_config():
         config.write(configfile)
 
 def extract_code_blocks(code_string):
-    code_block_regex = r"```([\w\W]*?)```" if code_string.count("`") == 6 else r"`([\w\W]*?)`"
+    code_block_regex = r"```(?:\w+\n)?([\w\W]*?)```|`([\w\W]*?)`"
     matches = re.findall(code_block_regex, code_string)
+    matches = [match[0] if match[0] else match[1] for match in matches]
     functions = []
     
     for match in matches:
@@ -142,7 +143,6 @@ def getCmd(chat, prompt, reply=False):
     if(chatResult):
         if hasattr(chatResult, '__len__') and (not isinstance(chatResult, str)):
             chatResult = str(chatResult[0])
-        chatResult = chatResult.replace('```python','```').replace('```autoit','```').replace('```plaintext','```')
         chatResult = extract_code_blocks(chatResult)
         if (not unattended):
             print('Going to execute:')

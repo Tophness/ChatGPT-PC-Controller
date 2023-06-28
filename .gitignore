@@ -1,5 +1,6 @@
 # Generated
 chromedriver/
+chrome-win32/
 chrome-win64/
 config.ini
 messages.yaml
