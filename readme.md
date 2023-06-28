@@ -17,17 +17,9 @@ It utilizes the main OpenAI website's ChatGPT API underneath, instead of requiri
 
 Before running the application, make sure you have the following prerequisites installed:
 
-1. Install Python 3.x
+1. Python 3.x
 
-2. Install the Web Driver. Please follow the instructions specific to your browser to install the driver.
-
-For Chrome:
-- Download: https://googlechromelabs.github.io/chrome-for-testing/
-- You will need to change webdriver_path, chrome_path and user_data_dir in config.ini if the defaults are incorrect. Soon I will add an options menu to do this better and try to detect it automatically.
-
-Firefox (Untested):
-- Download: https://github.com/mozilla/geckodriver/releases
-- You will need to change webdriver_path, chrome_path and user_data_dir in config.ini, but even then, I don't think it will work at this stage. May support it soon.
+1. Git
 
 ## Installation
 

@@ -2,5 +2,6 @@ selenium==4.10.0
 undetected-chromedriver==3.5.0
 requests==2.31.0
 PyAutoIt==0.6.5
+get-chrome-driver==1.3.12
 git+https://github.com/Tophness/OpenAIAPIGrabber
 git+https://github.com/Tophness/pyautoit
