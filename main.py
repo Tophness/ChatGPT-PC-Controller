@@ -108,7 +108,7 @@ def remove_variable_assignment(text):
     lines = text.split("\n")
     functions = []
     for line in lines:
-        match = re.search(r'\b(?:\w+\s*)?\$?\w+\s*=\s*(.*?)(?:\s*;.*|$)', line)
+        match = re.search(r'(\b\w+\(.*?\))', line)
         if match:
             functions.append(match.group(1).strip())
         else:

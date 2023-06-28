@@ -1,3 +1,12 @@
+# Generated
+chromedriver/
+chrome-win64/
+config.ini
+messages.yaml
+
+# Shortcuts
+run.bat
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
