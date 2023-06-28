@@ -5,6 +5,7 @@ from OpenAIAPIGrabber.chat import OpenAIChat
 import re
 import configparser
 import os
+import time
 
 config_file = 'config.ini'
 config = None
@@ -89,9 +90,15 @@ def convert_function_call(cmd_string):
     tree = ast.parse(cmd_string.strip())
     function_call = next(node for node in ast.walk(tree) if isinstance(node, ast.Expr) and isinstance(node.value, ast.Call))
     function_name = function_call.value.func.id
-    func = getattr(autoit, function_name)
+    func = None
+    if(function_name == 'Sleep'):
+        func = time.sleep
+    else:
+        func = getattr(autoit, function_name)
     if func:
         args = [ast.literal_eval(arg) for arg in function_call.value.args]
+        if(function_name == 'Sleep'):
+            args[0] = args[0] / 1000
         try:
             funcResult = func(*args)
             return funcResult
