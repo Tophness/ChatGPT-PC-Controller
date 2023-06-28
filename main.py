@@ -44,7 +44,7 @@ def save_config():
         config.write(configfile)
 
 def extract_code_blocks(code_string):
-    code_block_regex = r"```(?:\w+\n)?([\w\W]*?)```|`([\w\W]*?)`"
+    code_block_regex = r"```(?:\w+\n)?([\w\W]*?)```|`(?:\w+\n)?([\w\W]*?)`"
     matches = re.findall(code_block_regex, code_string)
     matches = [match[0] if match[0] else match[1] for match in matches]
     functions = []
