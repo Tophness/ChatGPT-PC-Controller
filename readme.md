@@ -19,7 +19,9 @@ Before running the application, make sure you have the following prerequisites i
 
 1. Python 3.x
 
-1. Git
+2. Git
+
+3. Chrome beta (v115.0.5790.24) - Stable version gets cloudflare errors for some reason
 
 ## Installation
 
